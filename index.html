@@ -50,7 +50,7 @@
       e.preventDefault();
 
       const message = JSON.stringify({
-        message: input.value,
+        message: input.value.toUpperCase(),
         messageLength: input.value.length,
       });
 
