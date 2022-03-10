@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LED Earrings</title>
+    <style>
+      body {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: sans-serif;
+        padding: 1rem;
+        font-size: 2rem;
+      }
+
+      button {
+        background: yellow;
+        border: none;
+        border-radius: 5px;
+        padding: 1rem;
+        border: 1px solid black;
+      }
+
+      textarea {
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        margin: 0 0 0.5rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>LED Earrings</h1>
+    <p>Enter your message and hit send :)</p>
+    <textarea></textarea>
+    <button>Send</button>
+  </body>
+  <script>
+    let Socket;
+    const button = document.querySelector('button');
+    const input = document.querySelector('textarea');
+
+    const init = () => {
+      Socket = new WebSocket('ws://' + window.location.hostname + ':81/');
+    };
+
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const message = JSON.stringify({
+        message: input.value,
+        messageLength: input.value.length,
+      });
+
+      Socket.send(message);
+
+      console.log(JSON.parse(message));
+
+      input.value = '';
+    });
+
+    window.onload = function (event) {
+      init();
+    };
+  </script>
+</html>
